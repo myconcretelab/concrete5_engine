@@ -123,10 +123,8 @@ class BlockType
     {
         $em = DB::get()->getEntityManager();
         $bt = $em->getRepository('\Concrete\Core\Block\BlockType\BlockType')->find($btID);
-        if(is_object($bt)) {
         $bt->loadController();
         return $bt;
-        }
     }
 
     /**

@@ -1,4 +1,4 @@
-<?php  defined('C5_EXECUTE') or die("Access Denied."); ?>
+<?php defined('C5_EXECUTE') or die("Access Denied."); ?>
 <div class="ccm-block-testimonial-wrapper">
     <div class="ccm-block-testimonial">
         <?php if ($image): ?>
@@ -35,7 +35,6 @@
             </div>
         <?php endif; ?>
 
-
         <?php if ($paragraph): ?>
             <div class="ccm-block-testimonial-paragraph"><?php echo h($paragraph)?></div>
         <?php endif; ?>
@@ -43,5 +42,4 @@
         </div>
 
     </div>
-
 </div>

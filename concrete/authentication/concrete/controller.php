@@ -21,10 +21,13 @@ class Controller extends AuthenticationTypeController
 
     public function deauthenticate(User $u)
     {
-        list($uID, $authType, $hash) = explode(':', $_COOKIE['ccmAuthUserHash']);
-        if ($authType == 'concrete') {
-            $db = Loader::db();
-            $db->execute('DELETE FROM authTypeConcreteCookieMap WHERE uID=? AND token=?', array($uID, $hash));
+        $cookie = array_get($_COOKIE, 'ccmAuthUserHash', '');
+        if ($cookie) {
+            list($uID, $authType, $hash) = explode(':', $cookie);
+            if ($authType == 'concrete') {
+                $db = Loader::db();
+                $db->execute('DELETE FROM authTypeConcreteCookieMap WHERE uID=? AND token=?', array($uID, $hash));
+            }
         }
     }
 
@@ -252,6 +255,12 @@ class Controller extends AuthenticationTypeController
         $uName = $post['uName'];
         $uPassword = $post['uPassword'];
 
+        /** @type \Concrete\Core\Permission\IPService $ip_service */
+        $ip_service = \Core::make('ip');
+        if ($ip_service->isBanned()) {
+            throw new \Exception($ip_service->getErrorMessage());
+        }
+
         $user = new User($uName, $uPassword);
         if (!is_object($user) || !($user instanceof User) || $user->isError()) {
             switch ($user->getError()) {
@@ -264,6 +273,12 @@ class Controller extends AuthenticationTypeController
                             'This account has not yet been validated. Please check the email associated with this account and follow the link it contains.'));
                     break;
                 case USER_INVALID:
+                    // Log failed auth
+                    $ip_service->logSignupRequest();
+                    if ($ip_service->signupRequestThreshholdReached()) {
+                        $ip_service->createIPBan();
+                        throw new \Exception($ip_service->getErrorMessage());
+                    }
                     if (Config::get('concrete.user.registration.email_registration')) {
                         throw new \Exception(t('Invalid email address or password.'));
                     } else {

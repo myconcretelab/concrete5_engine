@@ -36,7 +36,9 @@ if (isset($error) && $error != '') {
 
 	<div class="alert alert-info"><a data-dismiss="alert" href="#" class="close">&times;</a> <?php echo $message?></div>
 
-<?php } else if (isset($success)) { ?>
+<?php }
+
+if (isset($success)) { ?>
 
 	<div class="alert alert-success"><a data-dismiss="alert" href="#" class="close">&times;</a> <?php echo $success?></div>
 

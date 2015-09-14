@@ -69,13 +69,13 @@ class Page extends Collection implements \Concrete\Core\Permission\ObjectInterfa
 
     /**
      * @param int $cID Collection ID of a page
-     * @param string $versionOrig ACTIVE or RECENT
-     * @param string $class
+     * @param string $version ACTIVE or RECENT
      *
      * @return Page
      */
-    public static function getByID($cID, $version = 'RECENT', $class = 'Page')
+    public static function getByID($cID, $version = 'RECENT')
     {
+        $class = get_called_class();
         $c = CacheLocal::getEntry('page', $cID.'/'.$version.'/'.$class);
         if ($c instanceof $class) {
             return $c;
@@ -572,6 +572,7 @@ class Page extends Collection implements \Concrete\Core\Permission\ObjectInterfa
             $pkHandles[] = 'edit_page_permissions';
             $pkHandles[] = 'edit_page_theme';
             $pkHandles[] = 'schedule_page_contents_guest_access';
+            $pkHandles[] = 'edit_page_page_type';
             $pkHandles[] = 'edit_page_template';
             $pkHandles[] = 'delete_page';
             $pkHandles[] = 'delete_page_versions';
@@ -765,10 +766,10 @@ class Page extends Collection implements \Concrete\Core\Permission\ObjectInterfa
     public function getCollectionIcon()
     {
         // returns a fully qualified image link for this page's icon, either based on its collection type or if icon.png appears in its view directory
-        $icon = '';
-
         $pe = new Event($this);
+        $pe->setArgument('icon', '');
         Events::dispatch('on_page_get_icon', $pe);
+        $icon = $pe->getArgument('icon');
 
         if ($icon) {
             return $icon;
@@ -1767,7 +1768,14 @@ class Page extends Collection implements \Concrete\Core\Permission\ObjectInterfa
     public function getPageWrapperClass()
     {
         $pt = $this->getPageTypeObject();
-        $ptm = $this->getPageTemplateObject();
+        
+        $view = $this->getController()->getViewObject();
+        if($view) {
+            $ptm = $view->getPageTemplate();
+        } else {
+            $ptm = $this->getPageTemplateObject();    
+        }
+
         $classes = array('ccm-page');
         if (is_object($pt)) {
             $classes[] = 'page-type-'.str_replace('_', '-', $pt->getPageTypeHandle());

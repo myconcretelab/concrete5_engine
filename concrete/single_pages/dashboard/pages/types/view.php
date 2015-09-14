@@ -1,6 +1,6 @@
 <?php defined('C5_EXECUTE') or die("Access Denied."); ?>
 
-<?php if ($this->controller->getTask() == 'edit' && is_object($pagetype)) { ?>
+<?php if (($this->controller->getTask() == 'submit' || $this->controller->getTask() == 'edit') && is_object($pagetype)) { ?>
 
 <form class="form-horizontal" method="post" action="<?php echo $view->action('submit', $pagetype->getPageTypeID())?>">
 <div class="ccm-pane-body">

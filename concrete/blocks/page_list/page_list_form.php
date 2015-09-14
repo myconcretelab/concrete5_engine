@@ -95,6 +95,57 @@ $form = Loader::helper('form/page_selector');
         </fieldset>
 
         <fieldset>
+        <legend><?php echo t('Filter by Public Date') ?></legend>
+        <div class="form-group">
+            
+            <?php
+            $filterDateOptions = array(
+                'all' => t('Show All'),
+                'now' => t('Today'),
+                'past' => t('Before Today'),
+                'future' => t('After Today'),
+                'between' => t('Between'),
+            );
+
+            foreach($filterDateOptions as $filterDateOptionHandle => $filterDateOptionLabel) {
+                $isChecked = ($filterDateOption == $filterDateOptionHandle) ? 'checked' : '';
+                ?>
+                <div class="radio">
+                    <label>
+                        <input type="radio" class='filterDateOption' name="filterDateOption" value="<?php echo $filterDateOptionHandle?>" <?php echo $isChecked?> />
+                        <?php echo $filterDateOptionLabel ?>
+                    </label>
+                </div>
+            <?php } ?>
+ 
+            <div class="filterDateOptionDetail" data-filterDateOption="past">
+                <div class="form-group">
+                    <label class="control-label"><?php echo t('Days in the Past')?> <i class="launch-tooltip fa fa-question-circle" title="<?php echo t('Leave 0 to show all past dated pages')?>"></i></label>
+                    <input type="text" name="filterDatePast" value="<?php echo $filterDateDays ?>" class="form-control">
+                </div>
+            </div>
+
+            <div class="filterDateOptionDetail" data-filterDateOption="future">
+                <div class="form-group">
+                    <label class="control-label"><?php echo t('Days in the Future')?> <i class="launch-tooltip fa fa-question-circle" title="<?php echo t('Leave 0 to show all future dated pages')?>"></i></label>
+                    <input type="text" name="filterDateFuture" value="<?php echo $filterDateDays ?>" class="form-control">
+                </div>
+            </div>
+            
+            <div class="filterDateOptionDetail" data-filterDateOption="between">
+                <?php
+                    $datetime = loader::helper('form/date_time');
+                    echo $datetime->date('filterDateStart', $filterDateStart);
+                    echo "<p>and</p>";
+                    echo $datetime->date('filterDateEnd', $filterDateEnd);
+                ?>
+            </div>
+
+        </div>
+
+        </fieldset>
+
+        <fieldset>
         <legend><?php echo t('Other Filters') ?></legend>
         <div class="checkbox">
             <label>

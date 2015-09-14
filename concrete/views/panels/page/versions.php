@@ -16,9 +16,12 @@ defined('C5_EXECUTE') or die("Access Denied.");
 		<td><span class="ccm-panel-page-versions-version-id"><%-cvID%></span></td>
 		<td class="ccm-panel-page-versions-details">
 			<p><span class="ccm-panel-page-versions-version-timestamp"><%-cvDateVersionCreated%></span></p>
-			<p><%-cvAuthorUserName%></p>
+			<p><?php echo t('Edit by')?> <%-cvAuthorUserName%></p>
 			<% if (cvComments) { %>
 				<p><small><%-cvComments%></small></p>
+			<% } %>
+			<% if (cvIsApproved == 1) { %>
+				<p><?php echo t('Approved by')?> <%-cvApproverUserName%></p>
 			<% } %>
 		</td>
 		<td>

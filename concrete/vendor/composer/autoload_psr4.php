@@ -24,6 +24,8 @@ return array(
     'Zend\\Crypt\\' => array($vendorDir . '/zendframework/zend-crypt/src'),
     'Zend\\Cache\\' => array($vendorDir . '/zendframework/zend-cache/src'),
     'TrueBV\\' => array($vendorDir . '/true/punycode/src'),
+    'Symfony\\Component\\Debug\\' => array($vendorDir . '/symfony/debug'),
+    'Symfony\\Component\\Console\\' => array($vendorDir . '/symfony/console'),
     'Stash\\' => array($vendorDir . '/tedivm/stash/src/Stash'),
     'Punic\\' => array($vendorDir . '/punic/punic/code'),
     'OAuth\\UserData\\Unit\\' => array($vendorDir . '/oryzone/oauth-user-data/tests/OAuth/Unit/UserData'),

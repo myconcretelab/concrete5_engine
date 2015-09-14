@@ -56,7 +56,7 @@ class Controller extends BlockController
         return $str;
     }
 
-    public function registerViewAssets($outputContent)
+    public function registerViewAssets($outputContent = '')
     {
         if (preg_match('/data-concrete5-link-lightbox/i', $outputContent)) {
             $this->requireAsset('core/lightbox');
@@ -97,7 +97,9 @@ class Controller extends BlockController
 
     public function save($args)
     {
-        $args['content'] = LinkAbstractor::translateTo($args['content']);
+        if(isset($args['content'])) {
+            $args['content'] = LinkAbstractor::translateTo($args['content']);
+        }
         parent::save($args);
     }
 }

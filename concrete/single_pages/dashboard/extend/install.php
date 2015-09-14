@@ -53,9 +53,8 @@ if ($this->controller->getTask() == 'install_package' && $showInstallOptionsScre
     </form>
 <?php
 } elseif ($this->controller->getTask() == 'uninstall' && $tp->canUninstallPackages()) {
-    $removeBTConfirm = t('This will remove all elements associated with the %s package. This cannot be undone. Are you sure?', $pkg->getPackageHandle());
     ?>
-    <form method="post" class="form-stacked" id="ccm-uninstall-form" action="<?php echo $view->action('do_uninstall_package'); ?>" onsubmit="<?php echo h('return confirm(' . json_encode($removeBTConfirm) . ')'); ?>">
+    <form method="post" class="form-stacked" id="ccm-uninstall-form" action="<?php echo $view->action('do_uninstall_package'); ?>">
         <?php echo $valt->output('uninstall'); ?>
         <input type="hidden" name="pkgID" value="<?php echo $pkgID ?>" />
         <fieldset>
@@ -69,6 +68,10 @@ if ($this->controller->getTask() == 'install_package' && $showInstallOptionsScre
             </table>
 
             <?php @Loader::packageElement('dashboard/uninstall', $pkg->getPackageHandle()); ?>
+
+            <div class="alert alert-danger">
+                <?php echo t('This will remove all elements associated with the %s package. While you can reinstall the package, this may result in data loss.', $pkg->getPackageName())?>
+            </div>
 
             <div class="form-group">
                 <label class="control-label"><?php echo t('Move package to trash directory on server?'); ?></label>

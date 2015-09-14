@@ -75,9 +75,7 @@ class User extends Object
     public static function isLoggedIn()
     {
         $session = Core::make('session');
-
-        return $session->has('uID') && $session->get('uID') > 0 && $session->has('uName')
-            && $session->get('uName') != '' && $session->has('uLastPasswordChange');
+        return $session->has('uID') && $session->get('uID') > 0;
     }
 
     public function checkLogin()
@@ -364,8 +362,8 @@ class User extends Object
 
     public static function verifyAuthTypeCookie()
     {
-        if ($_COOKIE['ccmAuthUserHash']) {
-            list($_uID, $authType, $uHash) = explode(':', $_COOKIE['ccmAuthUserHash']);
+        if ($cookie = array_get($_COOKIE, 'ccmAuthUserHash')) {
+            list($_uID, $authType, $uHash) = explode(':', $cookie);
             $at = AuthenticationType::getByHandle($authType);
             $u = User::getByUserID($_uID);
             if ((!is_object($u)) || $u->isError()) {
@@ -513,7 +511,7 @@ class User extends Object
                         $action->addDetailedEntry($this, $g);
                     }
 
-                    $mh = Loader::helper('mail');
+                    $mh = Core::make('mail');
                     $ui = CoreUserInfo::getByID($this->getUserID());
                     $mh->addParameter('badgeName', $g->getGroupDisplayName(false));
                     $mh->addParameter('uDisplayName', $ui->getUserDisplayName());

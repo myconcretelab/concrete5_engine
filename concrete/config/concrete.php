@@ -7,9 +7,9 @@ return array(
      *
      * @var string
      */
-    'version'           => '5.7.5',
-    'version_installed' => '5.7.5',
-    'version_db' => '20150713000000', // the key of the latest database migration
+    'version'           => '5.7.5.2',
+    'version_installed' => '5.7.5.2',
+    'version_db' => '20150731000000', // the key of the latest database migration
 
     /**
      * Installation status
@@ -209,12 +209,12 @@ return array(
         'levels' => array(
             'expensive' => array(
                 'drivers' => array(
-                    array(
+                    'core_ephemeral' => array(
                         'class' => '\Stash\Driver\Ephemeral',
                         'options' => array()
                     ),
 
-                    array(
+                    'core_filesystem' => array(
                         'class' => '\Stash\Driver\FileSystem',
                         'options' => array(
                             'path' => DIR_FILES_UPLOADED_STANDARD . '/cache',
@@ -226,7 +226,7 @@ return array(
             ),
             'object' => array(
                 'drivers' => array(
-                    array(
+                    'core_ephemeral' => array(
                         'class' => '\Stash\Driver\Ephemeral',
                         'options' => array()
                     )
@@ -364,31 +364,42 @@ return array(
         /**
          * Enable marketplace integration
          *
-         * @var bool
+         * @var bool concrete.marketplace.enabled
          */
         'enabled'            => true,
 
         /**
+         * Time it takes for a request to timeout
+         *
+         * @var int concrete.marketplace.request_timeout
+         */
+        'request_timeout'   => 30,
+
+        /**
          * Marketplace Token
          *
-         * @var null|string
+         * @var null|string concrete.marketplace.token
          */
         'token'              => null,
 
         /**
          * Marketplace Site url Token
          *
-         * @var null|string
+         * @var null|string concrete.marketplace.site_token
          */
         'site_token'         => null,
 
         /**
          * Enable intelligent search integration
+         *
+         * @var bool concrete.marketplace.intelligent_search
          */
         'intelligent_search' => true,
 
         /**
          * Log requests
+         *
+         * @var bool concrete.marketplace.log_requests
          */
         'log_requests' => false
     ),
@@ -442,7 +453,8 @@ return array(
 
     'theme' => array(
 
-        'compress_preprocessor_output' => true
+        'compress_preprocessor_output' => true,
+        'generate_less_sourcemap' => false,
     ),
 
     'updates' => array(
@@ -484,6 +496,15 @@ return array(
             'default' => ASSETS_URL_IMAGES . '/avatar_none.png'
         )
     ),
+
+    'file_manager' => array(
+
+        'images' => array(
+            'use_exim_data_to_rotate_images' => false
+        )
+
+    ),
+
     'sitemap_xml'       => array(
         'file'      => 'sitemap.xml',
         'frequency' => 'weekly',

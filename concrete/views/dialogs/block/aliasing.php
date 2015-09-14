@@ -41,7 +41,7 @@ $dh = Core::make('helper/date'); /* @var $dh \Concrete\Core\Localization\Service
         <?php } ?>
 
         <div class="dialog-buttons">
-            <a href="#" class="ccm-dialog-close pull-left btn"><?php echo t('Cancel')?></a>
+            <button class="btn btn-default pull-left" data-dialog-action="cancel"><?php echo t('Cancel')?></button>
             <a href="javascript:void(0)" onclick="$('#ccmBlockMasterCollectionForm').submit()" class="btn btn-primary pull-right"><?php echo t('Save')?></a>
         </div>
 

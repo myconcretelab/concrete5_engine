@@ -11,19 +11,26 @@ $dh = Core::make('helper/date'); /* @var $dh \Concrete\Core\Localization\Service
 
 <div class="ccm-block-page-list-wrapper">
 
-    <?php if ($pageListTitle): ?>
+    <?php if (isset($pageListTitle) && $pageListTitle): ?>
         <div class="ccm-block-page-list-header">
             <h5><?php echo h($pageListTitle)?></h5>
         </div>
     <?php endif; ?>
 
-    <?php if ($rssUrl): ?>
+    <?php if (isset($rssUrl) && $rssUrl): ?>
         <a href="<?php echo $rssUrl ?>" target="_blank" class="ccm-block-page-list-rss-feed"><i class="fa fa-rss"></i></a>
     <?php endif; ?>
 
     <div class="ccm-block-page-list-pages">
 
-    <?php foreach ($pages as $page):
+    <?php
+
+    $includeEntryText = false;
+    if ($includeName || $includeDescription || $useButtonForLink) {
+        $includeEntryText = true;
+    }
+
+    foreach ($pages as $page):
 
 		// Prepare data for each page being listed...
         $buttonClasses = 'ccm-block-page-list-read-more';
@@ -38,10 +45,6 @@ $dh = Core::make('helper/date'); /* @var $dh \Concrete\Core\Localization\Service
         $thumbnail = false;
         if ($displayThumbnail) {
             $thumbnail = $page->getAttribute('thumbnail');
-        }
-        $includeEntryText = false;
-        if ($includeName || $includeDescription || $useButtonForLink) {
-            $includeEntryText = true;
         }
         if (is_object($thumbnail) && $includeEntryText) {
             $entryClasses = 'ccm-block-page-list-page-entry-horizontal';
