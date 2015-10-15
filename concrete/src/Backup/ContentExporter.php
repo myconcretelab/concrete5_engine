@@ -83,15 +83,15 @@ class ContentExporter
         $this->x = $this->getXMLRoot();
 
         // First, attribute categories
-        AttributeKeyCategory::exportList($this->x);
+        // AttributeKeyCategory::exportList($this->x);
 
         // Features
-        Feature::exportList($this->x);
-        FeatureCategory::exportList($this->x);
-
-        ConversationEditor::exportList($this->x);
-
-        ConversationRatingType::exportList($this->x);
+        // Feature::exportList($this->x);
+        // FeatureCategory::exportList($this->x);
+        //
+        // ConversationEditor::exportList($this->x);
+        //
+        // ConversationRatingType::exportList($this->x);
 
         // composer
         PageTypePublishTargetType::exportList($this->x);
@@ -99,53 +99,53 @@ class ContentExporter
         PageType::exportList($this->x);
 
         // attribute types
-        AttributeType::exportList($this->x);
+        // AttributeType::exportList($this->x);
 
         // then block types
-        BlockTypeList::exportList($this->x);
+        // BlockTypeList::exportList($this->x);
 
         // now block type sets (including user)
-        BlockTypeSet::exportList($this->x);
+        // BlockTypeSet::exportList($this->x);
 
         // gathering
-        GatheringDataSource::exportList($this->x);
-        GatheringItemTemplate::exportList($this->x);
+        // GatheringDataSource::exportList($this->x);
+        // GatheringItemTemplate::exportList($this->x);
 
         // now attribute keys (including user)
         AttributeKey::exportList($this->x);
 
         // now attribute keys (including user)
-        AttributeSet::exportList($this->x);
+        // AttributeSet::exportList($this->x);
 
-        PageTemplate::exportList($this->x);
+        // PageTemplate::exportList($this->x);
 
         // now theme
-        PageTheme::exportList($this->x);
+        // PageTheme::exportList($this->x);
 
         // now packages
-        PackageList::export($this->x);
+        // PackageList::export($this->x);
 
         // permission access entity types
-        PermissionAccessEntityType::exportList($this->x);
+        // PermissionAccessEntityType::exportList($this->x);
 
         // now task permissions
-        PermissionKey::exportList($this->x);
+        // PermissionKey::exportList($this->x);
 
         // workflow types
-        WorkflowType::exportList($this->x);
+        // WorkflowType::exportList($this->x);
 
         // now jobs
 
-        Job::exportList($this->x);
+        // Job::exportList($this->x);
 
         // now single pages
-        $singlepages = $this->x->addChild("singlepages");
-        $db = Loader::db();
-        $r = $db->Execute('select cID from Pages where cFilename is not null and cFilename <> "" and cID not in (select cID from Stacks) order by cID asc');
-        while ($row = $r->FetchRow()) {
-            $pc = Page::getByID($row['cID'], 'RECENT');
-            $pc->export($singlepages);
-        }
+        // $singlepages = $this->x->addChild("singlepages");
+        // $db = Loader::db();
+        // $r = $db->Execute('select cID from Pages where cFilename is not null and cFilename <> "" and cID not in (select cID from Stacks) order by cID asc');
+        // while ($row = $r->FetchRow()) {
+        //     $pc = Page::getByID($row['cID'], 'RECENT');
+        //     $pc->export($singlepages);
+        // }
 
         // now stacks/global areas
 
@@ -154,15 +154,15 @@ class ContentExporter
         // now content pages
         $this->exportPages($this->x);
 
-        SystemCaptchaLibrary::exportList($this->x);
+        // SystemCaptchaLibrary::exportList($this->x);
 
         \Concrete\Core\Sharing\SocialNetwork\Link::exportList($this->x);
 
-        \Concrete\Core\Page\Feed::exportList($this->x);
+        // \Concrete\Core\Page\Feed::exportList($this->x);
 
-        \Concrete\Core\File\Image\Thumbnail\Type\Type::exportList($this->x);
+        // \Concrete\Core\File\Image\Thumbnail\Type\Type::exportList($this->x);
 
-        Tree::exportList($this->x);
+        // Tree::exportList($this->x);
 
     }
 

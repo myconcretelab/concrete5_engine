@@ -319,6 +319,7 @@ class ContentImporter
                             if ($bID) {
                                 $mc = Page::getByID($page->getMasterCollectionID(), 'RECENT');
                                 $block = Block::getByID($bID, $mc, (string) $ax['name']);
+                                if(!is_objet($block)) throw new \Exception(t('Invalid block for alias : %s', strval($ax['name'])));
                                 $block->alias($page);
 
                                 if ($block->getBlockTypeHandle() == BLOCK_HANDLE_LAYOUT_PROXY) {
