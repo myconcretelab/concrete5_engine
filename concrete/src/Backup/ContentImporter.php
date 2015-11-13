@@ -281,6 +281,10 @@ class ContentImporter
                             $parent = $home;
                         } else {
                             $parent = Page::getByPath($parentPath);
+                            if (!($parent->getCollectionID())) {
+                              var_dump($px['path']);
+                              die();
+                            }
                         }
                         $page = $parent->add($ct, $data);
                     }
@@ -319,7 +323,7 @@ class ContentImporter
                             if ($bID) {
                                 $mc = Page::getByID($page->getMasterCollectionID(), 'RECENT');
                                 $block = Block::getByID($bID, $mc, (string) $ax['name']);
-                                if(!is_objet($block)) throw new \Exception(t('Invalid block for alias : %s', strval($ax['name'])));
+                                if(!is_object($block)) throw new \Exception(t('Invalid block for alias : %s', strval($ax['name'])));
                                 $block->alias($page);
 
                                 if ($block->getBlockTypeHandle() == BLOCK_HANDLE_LAYOUT_PROXY) {
