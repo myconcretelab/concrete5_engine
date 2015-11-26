@@ -380,8 +380,11 @@ class Page extends Collection implements \Concrete\Core\Permission\ObjectInterfa
         }
 
         $update_query .= ' '.implode(' ', $when_statements).' END WHERE bID in ('.
-            implode(',', array_pad(array(), count($block_order), '?')).')';
-        $db->execute($update_query, array_merge($update_values, $block_order));
+            implode(',', array_pad(array(), count($block_order), '?')).') AND cID = ? AND cvID = ?';
+        $values = array_merge($update_values, $block_order);
+        $values = array_merge($values, array($this->getCollectionID(), $this->getVersionID()));
+
+        $db->execute($update_query, $values);
     }
 
     /**
@@ -562,6 +565,7 @@ class Page extends Collection implements \Concrete\Core\Permission\ObjectInterfa
             $pkHandles[] = 'view_page_versions';
             $pkHandles[] = 'edit_page_properties';
             $pkHandles[] = 'edit_page_contents';
+            $pkHandles[] = 'edit_page_multilingual_settings';
             $pkHandles[] = 'approve_page_versions';
             $pkHandles[] = 'move_or_copy_page';
             $pkHandles[] = 'preview_page_as_user';
@@ -1769,7 +1773,7 @@ class Page extends Collection implements \Concrete\Core\Permission\ObjectInterfa
     {
         $pt = $this->getPageTypeObject();
         
-        $view = $this->getController()->getViewObject();
+        $view = $this->getPageController()->getViewObject();
         if($view) {
             $ptm = $view->getPageTemplate();
         } else {
@@ -2650,10 +2654,15 @@ class Page extends Collection implements \Concrete\Core\Permission\ObjectInterfa
         $systemPages = array('/login', '/register', Config::get('concrete.paths.trash'), STACKS_PAGE_PATH, Config::get('concrete.paths.drafts'), '/members', '/members/*', '/account', '/account/*', Config::get('concrete.paths.trash').'/*', STACKS_PAGE_PATH.'/*', Config::get('concrete.paths.drafts').'/*', '/download_file', '/dashboard', '/dashboard/*','/page_forbidden','/page_not_found');
         $th = Core::make('helper/text');
         $db->Execute('update Pages set cIsSystemPage = 0 where cID = ?', array($cID));
-        foreach ($systemPages as $sp) {
-            if ($th->fnmatch($sp, $newPath)) {
-                $db->Execute('update Pages set cIsSystemPage = 1 where cID = ?', array($cID));
-                $this->cIsSystemPage = true;
+        if ($this->cParentID == 0) {
+            $db->Execute('update Pages set cIsSystemPage = 1 where cID = ?', array($cID));
+            $this->cIsSystemPage = true;
+        } else {
+            foreach ($systemPages as $sp) {
+                if ($th->fnmatch($sp, $newPath)) {
+                    $db->Execute('update Pages set cIsSystemPage = 1 where cID = ?', array($cID));
+                    $this->cIsSystemPage = true;
+                }
             }
         }
     }
@@ -2667,6 +2676,8 @@ class Page extends Collection implements \Concrete\Core\Permission\ObjectInterfa
     {
         $db = Database::get();
         $db->Execute('update Pages set cParentID = 0 where cID = ?', array($this->getCollectionID()));
+        $this->cParentID = 0;
+        $this->rescanSystemPageStatus();
     }
 
     public function deactivate()

@@ -19,8 +19,13 @@ $dh = Core::make('helper/date'); /* @var $dh \Concrete\Core\Localization\Service
 			), false)?>
 
     		<div id="ccm-private-message-detail">
+			<?php if (\Config::get('concrete.user.profiles_enabled')) { ?>
 				<a href="<?php echo $view->url('/members/profile', 'view', $msg->getMessageRelevantUserID())?>"><?php echo $av->outputUserAvatar($msg->getMessageRelevantUserObject())?></a>
 				<a href="<?php echo $view->url('/members/profile', 'view', $msg->getMessageRelevantUserID())?>"><?php echo $msg->getMessageRelevantUserName()?></a>
+			<?php } else { ?>
+				<?php echo $av->outputUserAvatar($msg->getMessageRelevantUserObject())?>
+				<?php echo $msg->getMessageRelevantUserName()?>
+			<?php } ?>
 
 				<div id="ccm-private-message-actions">
 

@@ -124,7 +124,11 @@ return array(
         'core_auth_community' => '\Concrete\Core\Authentication\Type\Community\ServiceProvider',
         'core_auth_facebook'  => '\Concrete\Core\Authentication\Type\Facebook\ServiceProvider',
         'core_auth_google'    => '\Concrete\Core\Authentication\Type\Google\ServiceProvider',
-        'core_auth_twitter'   => '\Concrete\Core\Authentication\Type\Twitter\ServiceProvider'
+        'core_auth_twitter'   => '\Concrete\Core\Authentication\Type\Twitter\ServiceProvider',
+
+        // Validator
+        'core_validator'          => '\Concrete\Core\Validator\ValidatorServiceProvider',
+        'core_validator_password' => '\Concrete\Core\Validator\PasswordValidatorServiceProvider'
     ),
 
     /**
@@ -534,6 +538,10 @@ return array(
         'picturefill'              => array(
             array('javascript', 'js/picturefill.js', array('minify' => false))
         ),
+        'responsive-slides'              => array(
+            array('javascript', 'js/responsive-slides.js', array('minify' => false)),
+            array('css', 'css/responsive-slides.css', array('minify' => false))
+        ),
         'html5-shiv'              => array(
             array('javascript-conditional', 'js/ie/html5-shiv.js',
                 array('conditional' => 'lt IE 9')
@@ -748,6 +756,12 @@ return array(
                 array('javascript', 'dropzone'),
                 array('javascript-localized', 'dropzone'),
                 array('css', 'dropzone')
+            )
+        ),
+        'responsive-slides'                  => array(
+            array(
+                array('javascript', 'responsive-slides'),
+                array('css', 'responsive-slides')
             )
         ),
         'ace'         => array(

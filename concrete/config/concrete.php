@@ -7,8 +7,8 @@ return array(
      *
      * @var string
      */
-    'version'           => '5.7.5.2',
-    'version_installed' => '5.7.5.2',
+    'version'           => '5.7.5.3',
+    'version_installed' => '5.7.5.3',
     'version_db' => '20150731000000', // the key of the latest database migration
 
     /**
@@ -500,7 +500,8 @@ return array(
     'file_manager' => array(
 
         'images' => array(
-            'use_exim_data_to_rotate_images' => false
+            'use_exim_data_to_rotate_images' => false,
+            'manipulation_library' => 'gd'
         )
 
     ),
@@ -623,7 +624,7 @@ return array(
             'cookie_lifetime' => 0,
             'cookie_domain'   => false,
             'cookie_secure'   => false,
-            'cookie_httponly' => false
+            'cookie_httponly' => true
         )
     ),
 

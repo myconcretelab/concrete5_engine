@@ -2,7 +2,6 @@
 
 namespace Concrete\Core\File;
 
-use Concrete\Core\File\ImportProcessor\PreProcessorInterface;
 use Concrete\Core\File\ImportProcessor\ProcessorInterface;
 use Concrete\Core\File\StorageLocation\StorageLocation;
 use Concrete\Flysystem\AdapterInterface;
@@ -208,9 +207,9 @@ class Importer
             $copied = false;
         }
         if (!$copied) {
-            $storage->write(
+            $storage->writeStream(
                 $cf->prefix($prefix, $sanitizedFilename),
-                $storage->read(REL_DIR_FILES_INCOMING . '/' . $filename)
+                $storage->readStream(REL_DIR_FILES_INCOMING . '/' . $filename)
             );
         }
 

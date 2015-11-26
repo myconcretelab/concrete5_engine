@@ -57,6 +57,9 @@ $large_font = !!Config::get('concrete.accessibility.toolbar_large_font');
                         <li class="last-li"><a href="<?php echo View::url('/dashboard/system') ?>"><?php echo t('System & Settings'); ?></a></li>
                     </ul>
                 </li>
+                <li>
+                    <i class="fa fa-sign-out mobile-leading-icon"></i><a href="<?php echo URL::to('/login', 'logout', Loader::helper('validation/token')->generate('logout')); ?>"><?php echo t('Sign Out'); ?></a>
+                </li>
             </ul>
         </div>
     </div>

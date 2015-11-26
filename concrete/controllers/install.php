@@ -165,6 +165,8 @@ class Install extends Controller
         if (!isset($_COOKIE['CONCRETE5_INSTALL_TEST'])) {
             setcookie('CONCRETE5_INSTALL_TEST', '1', 0, DIR_REL . '/');
         }
+
+        $this->set('pageTitle', t('Install concrete5'));
     }
 
     private function setRequiredItems()
@@ -314,8 +316,7 @@ class Install extends Controller
             $password = $_POST['uPassword'];
             $passwordConfirm = $_POST['uPasswordConfirm'];
 
-            $uh = Core::make('helper/concrete/user');
-            $uh->validNewPassword($password, $error);
+            Core::make('validator/password')->isValid($password, $error);
 
             if ($password) {
                 if ($password != $passwordConfirm) {
@@ -324,7 +325,9 @@ class Install extends Controller
             }
 
             if (is_object($this->fileWriteErrors)) {
-                $error = $this->fileWriteErrors;
+                foreach($this->fileWriteErrors->getList() as $msg) {
+                    $error->add($msg);
+                }
             }
 
             $error = $this->validateDatabase($error);

@@ -3,6 +3,7 @@ namespace Concrete\Core\Routing;
 
 use \Concrete\Core\Page\Event as PageEvent;
 use Concrete\Core\Page\Theme\Theme;
+use Concrete\Core\Url\Url;
 use PermissionKey;
 use Request;
 use User;
@@ -94,7 +95,17 @@ class DispatcherRouteCallback extends RouteCallback
         }
         if (!$c->cPathFetchIsCanonical) {
             // Handle redirect URL (additional page paths)
-            return Redirect::page($c, 301);
+            /** @type Url $url */
+            $url = \Core::make('url/manager')->resolve(array($c));
+            $query = $url->getQuery();
+            $query->modify($request->getQueryString());
+
+            $url = $url->setQuery($query);
+
+            $response = Redirect::to($url);
+            $response->setStatusCode(301);
+
+            return $response;
         }
 
         // maintenance mode

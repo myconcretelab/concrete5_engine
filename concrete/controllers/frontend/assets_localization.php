@@ -266,8 +266,18 @@ var ccmi18n_helpGuides = {
     {title: <?php echo json_encode(t('Edit Menu'))?>, text: <?php echo json_encode(t('Use this menu to edit a block\'s contents, change its display, or remove it entirely.'))?>},
     {title: <?php echo json_encode(t('Save Changes'))?>, text: <?php echo json_encode(t("When you're done editing you can Save Changes for other editors to see, or Publish Changes to make your changes live immediately."))?>}
   ],
+    'add-content-edit-mode': [
+    {title: <?php echo json_encode(t('Add Mode Active'))?>, text: <?php echo json_encode(t('The highlighted button makes it obvious you\'re in Add Content mode.'))?>},
+    {title: <?php echo json_encode(t('Add Panel'))?>, text: <?php echo json_encode(t('This is the Add Content Panel.'))?>},
+    {title: <?php echo json_encode(t('Content Selector'))?>, text: <?php echo json_encode(t('Click here to choose between adding blocks, clipboard items, stacks and stack contents.'))?>},
+    {title: <?php echo json_encode(t('Search Blocks'))?>, text: <?php echo json_encode(t("You can easily filter the blocks in the panel by searching here."))?>},
+    {title: <?php echo json_encode(t('Add Blocks'))?>, text: <?php echo json_encode(t("Click and drag blocks from the add panel into the page to add them."))?>}
+    ],
   'change-content': [
     {title: <?php echo json_encode(t('Enter Edit Mode'))?>, text: <?php echo json_encode(t('First, click the "Edit Page" button. This will enter edit mode for this page.'))?>}
+  ],
+  'add-content': [
+    {title: <?php echo json_encode(t('Enter Edit Mode'))?>, text: <?php echo json_encode(t('Click the "Add Content" button to enter edit mode, with the Add Content panel active.'))?>}
   ],
   'dashboard': [
     {title: <?php echo json_encode(t('Dashboard Panel'))?>, text: <?php echo json_encode(t('The dashboard is where you go to manage aspects of your site that have to do with more than the content on just one page. Click the sliders icon.'))?>},

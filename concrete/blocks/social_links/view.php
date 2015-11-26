@@ -7,7 +7,7 @@ defined('C5_EXECUTE') or die("Access Denied.");
     <?php foreach($links as $link) {
         $service = $link->getServiceObject();
         ?>
-        <li><a href="<?php echo $link->getURL()?>"><?php echo $service->getServiceIconHTML()?></a></li>
+        <li><a href="<?php echo h($link->getURL()) ?>"><?php echo $service->getServiceIconHTML()?></a></li>
     <?php } ?>
     </ul>
 </div>

@@ -253,15 +253,16 @@ class Application extends Container
         foreach($this->packages as $pkg) {
             // handle updates
             if (Config::get('concrete.updates.enable_auto_update_packages')) {
-                $pkgInstalledVersion = $p->getPackageVersion();
+                $dbPkg = \Package::getByHandle($pkg->getPackageHandle());
+                $pkgInstalledVersion = $dbPkg->getPackageVersion();
                 $pkgFileVersion = $pkg->getPackageVersion();
                 if (version_compare($pkgFileVersion, $pkgInstalledVersion, '>')) {
                     $currentLocale = Localization::activeLocale();
                     if ($currentLocale != 'en_US') {
                         Localization::changeLocale('en_US');
                     }
-                    $p->upgradeCoreData();
-                    $p->upgrade();
+                    $dbPkg->upgradeCoreData();
+                    $dbPkg->upgrade();
                     if ($currentLocale != 'en_US') {
                         Localization::changeLocale($currentLocale);
                     }
@@ -302,13 +303,14 @@ class Application extends Container
      */
     public function handleURLSlashes(SymfonyRequest $request)
     {
-        $parsedUrl = (string) Url::createFromUrl($request->getUri());
         if ($request->getPathInfo() != '/') {
-            $parsedUrlWithoutQueryString = strstr($parsedUrl, '?', true) ?: $parsedUrl;
-            $requestUrl = $request->getUri();
-            $requestUrlWithoutQueryString = strstr($requestUrl, '?', true) ?: $requestUrl;
-            if (urldecode($parsedUrlWithoutQueryString) != urldecode($requestUrlWithoutQueryString)) {
-                $response = new RedirectResponse($parsedUrl, 301);
+            $request_path = $request->getRequestUri();
+            $parsed_url = Url::createFromUrl($request->getUri());
+
+            $url_path = ltrim(parse_url($request_path, PHP_URL_PATH), '/');
+
+            if ($url_path != (string) $parsed_url->getPath()) {
+                $response = new RedirectResponse($parsed_url, 301);
                 $response->setRequest($request);
 
                 return $response;
