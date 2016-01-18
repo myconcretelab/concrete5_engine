@@ -35,13 +35,15 @@ class AddFileFileSetKey extends FileSetKey  {
 				$extensions = Loader::helper('concrete/file')->getAllowedFileExtensions();
 			}
 		}
-		
+
+		$extensions = array_map('strtolower', $extensions);
 		return $extensions;
 	}
 	
 	public function validate($extension = false) {
 		$extensions = $this->getAllowedFileExtensions();
-		if ($ext != false) {
+		$extension = strtolower($extension);
+		if ($extension != false) {
 			return in_array($extension, $extensions);
 		} else {
 			return count($extensions) > 0;
