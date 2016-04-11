@@ -7,8 +7,13 @@ return array(
      *
      * @var string
      */
+<<<<<<< HEAD
     'version'           => '5.7.5.6',
     'version_installed' => '5.7.5.6',
+=======
+    'version'           => '5.7.5.4',
+    'version_installed' => '5.7.5.4',
+>>>>>>> origin/master
     'version_db' => '20151221000000', // the key of the latest database migration
 
     /**

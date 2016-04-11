@@ -1,7 +1,11 @@
 <?php
 namespace Concrete\Core\Session;
 
+<<<<<<< HEAD
 use Concrete\Core\Application\Application;
+=======
+use Concrete\Core\Support\Facade\Application;
+>>>>>>> origin/master
 use \Symfony\Component\HttpFoundation\Session\Session as SymfonySession;
 
 /**
@@ -12,6 +16,7 @@ use \Symfony\Component\HttpFoundation\Session\Session as SymfonySession;
 class Session
 {
 
+<<<<<<< HEAD
     /** @var Application */
     protected static $app;
 
@@ -27,12 +32,21 @@ class Session
     }
 
     /**
+=======
+    /**
+     * Class Session
+     * @package Concrete\Core\Session
+>>>>>>> origin/master
      * @deprecated Create the session using $app->make('session');
      */
     public static function start()
     {
         /** @var FactoryInterface $factory */
+<<<<<<< HEAD
         return self::$app->make('session');
+=======
+        return Application::make('session');
+>>>>>>> origin/master
     }
 
     /**
@@ -41,7 +55,11 @@ class Session
      */
     public static function testSessionFixation(SymfonySession $session)
     {
+<<<<<<< HEAD
         $validator = self::$app->make('Concrete\Core\Session\SessionValidatorInterface');
+=======
+        $validator = Application::make('Concrete\Core\Session\SessionValidatorInterface');
+>>>>>>> origin/master
         $validator->handleSessionValidation($session);
     }
 }

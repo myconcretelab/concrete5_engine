@@ -16,6 +16,7 @@ class UninstallPackageCommand extends Command
         $this
             ->setName('c5:package-uninstall')
             ->addOption('trash', null, InputOption::VALUE_NONE, 'If this option is specified the package directory will be moved to the trash directory')
+<<<<<<< HEAD
             ->addArgument('package', InputArgument::REQUIRED, 'The handle of the package to be uninstalled')
             ->setDescription('Uninstall a concrete5 package')
             ->setHelp(<<<EOT
@@ -24,12 +25,20 @@ Returns codes:
   1 errors occurred
 EOT
             )
+=======
+            ->addOption('full-content-swap', null, InputOption::VALUE_NONE, 'If this option is specified a full content swap will be performed (if the package supports it)')
+            ->addArgument('package', InputArgument::REQUIRED, 'The handle of the package to be uninstalled')
+            ->setDescription('Uninstall a concrete5 package')
+>>>>>>> origin/master
         ;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+<<<<<<< HEAD
         $rc = 0;
+=======
+>>>>>>> origin/master
         try {
             $pkgHandle = $input->getArgument('package');
 
@@ -44,18 +53,30 @@ EOT
             if ($pkg === null) {
                 throw new Exception(sprintf("No package with handle '%s' is installed", $pkgHandle));
             }
+<<<<<<< HEAD
             $output->writeln(sprintf('<info>found (%s).</info>', $pkg->getPackageName()));
+=======
+            $output->writeln(sprintf('found (%s).', $pkg->getPackageName()));
+>>>>>>> origin/master
 
             $output->write('Checking preconditions... ');
             $test = $pkg->testForUninstall();
             if ($test !== true) {
                 throw new Exception(implode("\n", Package::mapError($test)));
             }
+<<<<<<< HEAD
             $output->writeln('<info>good.</info>');
 
             $output->write('Uninstalling package... ');
             $pkg->uninstall();
             $output->writeln('<info>done.</info>');
+=======
+            $output->writeln('good.');
+
+            $output->write('Uninstalling package... ');
+            $pkg->uninstall();
+            $output->writeln('done.');
+>>>>>>> origin/master
 
             if ($input->getOption('trash')) {
                 $output->write('Moving package to trash... ');
@@ -63,6 +84,7 @@ EOT
                 if (is_array($r)) {
                     throw new Exception(implode("\n", Package::mapError($r)));
                 }
+<<<<<<< HEAD
                 $output->writeln('<info>done.</info>');
             }
         } catch (Exception $x) {
@@ -71,5 +93,14 @@ EOT
         }
 
         return $rc;
+=======
+                $output->writeln('done.');
+            }
+        } catch (Exception $x) {
+            $output->writeln($x->getMessage());
+
+            return 1;
+        }
+>>>>>>> origin/master
     }
 }

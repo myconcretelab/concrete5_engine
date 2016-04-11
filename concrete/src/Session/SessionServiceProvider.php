@@ -7,12 +7,18 @@ class SessionServiceProvider extends ServiceProvider
 {
     public function register()
     {
+<<<<<<< HEAD
         // Supply the deprecated static session accessor with a real application object
         Session::setApplicationObject($this->app);
 
         $this->app->bind('Concrete\Core\Session\SessionValidatorInterface', 'Concrete\Core\Session\SessionValidator');
         $this->app->bind('Concrete\Core\Session\SessionFactoryInterface', 'Concrete\Core\Session\SessionFactory');
 
+=======
+        $this->app->bind('Concrete\Core\Session\SessionValidatorInterface', 'Concrete\Core\Session\SessionValidator');
+        $this->app->bind('Concrete\Core\Session\SessionFactoryInterface', 'Concrete\Core\Session\SessionFactory');
+
+>>>>>>> origin/master
         $this->app->singleton('session', function ($app) {
             return $app->make('Concrete\Core\Session\SessionFactoryInterface')->createSession();
         });

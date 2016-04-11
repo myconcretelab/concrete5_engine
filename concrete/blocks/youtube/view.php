@@ -40,6 +40,7 @@ $params[] = 'hl=' . Localization::activeLanguage();
 if (isset($iv_load_policy) && $iv_load_policy > 0) {
 	$params[] = 'iv_load_policy=' . $iv_load_policy;
 }
+<<<<<<< HEAD
 
 if (isset($loop) && $loop) {
 	$params[] = 'loop=1';
@@ -51,6 +52,21 @@ if (isset($modestbranding) && $modestbranding) {
 
 $params[] = 'rel=' . (isset($rel) && $rel ? '1' : '0');
 
+=======
+
+if (isset($loop) && $loop) {
+	$params[] = 'loop=1';
+}
+
+if (isset($modestbranding) && $modestbranding) {
+	$params[] = 'modestbranding=1';
+}
+
+if (isset($rel) && $rel) {
+	$params[] = 'rel=1';
+}
+
+>>>>>>> origin/master
 if (isset($showinfo) && $showinfo) {
 	$params[] = 'showinfo=1';
 }

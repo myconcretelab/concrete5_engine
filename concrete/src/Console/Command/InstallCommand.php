@@ -35,12 +35,15 @@ class InstallCommand extends Command
             ->addOption('config', null, InputOption::VALUE_REQUIRED, 'Use configuration file for installation')
             ->addOption('attach', null, InputOption::VALUE_NONE, 'Attach if database contains an existing concrete5 instance')
             ->addOption('force-attach', null, InputOption::VALUE_NONE, 'Always attach')
+<<<<<<< HEAD
             ->setHelp(<<<EOT
 Returns codes:
   0 operation completed successfully
   1 errors occurred
 EOT
             )
+=======
+>>>>>>> origin/master
         ;
     }
 
@@ -103,6 +106,7 @@ EOT
             Database::setDefaultConnection('install');
             Config::set('database.connections.install', array());
 
+<<<<<<< HEAD
             $cnt = new \Concrete\Controller\Install();
 
             $force_attach = $input->getOption('force-attach');
@@ -131,6 +135,74 @@ EOT
             $spl = StartingPointPackage::getClass($options['starting-point']);
             if ($spl === null) {
                 $e->add('Invalid starting-point: '.$options['starting-point']);
+=======
+        $cnt = new \Concrete\Controller\Install();
+
+
+        $force_attach = $input->getOption('force-attach');
+        $auto_attach = $force_attach || $input->getOption('attach');
+        $cnt->setAutoAttach($auto_attach);
+
+        $cnt->on_start();
+        $fileWriteErrors = clone $cnt->fileWriteErrors;
+        $e = Core::make('helper/validation/error');
+        /* @var $e \Concrete\Core\Error\Error */
+        if (!$cnt->get('imageTest')) {
+            $e->add('GD library must be enabled to install concrete5.');
+        }
+        if (!$cnt->get('mysqlTest')) {
+            $e->add($cnt->getDBErrorMsg());
+        }
+        if (!$cnt->get('xmlTest')) {
+            $e->add('SimpleXML and DOM must be enabled to install concrete5.');
+        }
+        if (!$cnt->get('phpVtest')) {
+            $e->add('concrete5 requires PHP '.$cnt->getMinimumPhpVersion().' or greater.');
+        }
+        if (is_object($fileWriteErrors)) {
+            $e->add($fileWriteErrors);
+        }
+        if (!$e->has()) {
+            $_POST['DB_SERVER'] = $options['db-server'];
+            $_POST['DB_USERNAME'] = $options['db-username'];
+            $_POST['DB_PASSWORD'] = $options['db-password'];
+            $_POST['DB_DATABASE'] = $options['db-database'];
+            $_POST['SITE'] = $options['site'];
+            $_POST['SAMPLE_CONTENT'] = $options['starting-point'];
+            $_POST['uEmail'] = $options['admin-email'];
+            $_POST['uPasswordConfirm'] = $_POST['uPassword'] = $options['admin-password'];
+            $e = $cnt->configure();
+        }
+        if ($e->has()) {
+            throw new Exception(implode("\n", $e->getList()));
+        }
+
+        try {
+            $spl = StartingPointPackage::getClass($options['starting-point']);
+            $attach_mode = $force_attach;
+
+            if (!$force_attach && $cnt->isAutoAttachEnabled()) {
+                /** @var Connection $db */
+                $db = \Core::make('database')->connection();
+
+                if ($db->query('show tables')->rowCount()) {
+                    $attach_mode = true;
+                }
+            }
+
+            require DIR_CONFIG_SITE . '/site_install.php';
+            require DIR_CONFIG_SITE . '/site_install_user.php';
+            $routines = $spl->getInstallRoutines();
+            foreach ($routines as $r) {
+                // If we're
+                if ($attach_mode && !$r instanceof AttachModeCompatibleRoutineInterface) {
+                    $output->writeln("{$r->getProgress()}%: {$r->getText()} (Skipped)");
+                    continue;
+                }
+
+                $output->writeln($r->getProgress() . '%: ' . $r->getText());
+                call_user_func(array($spl, $r->getMethod()));
+>>>>>>> origin/master
             }
             if (!$e->has()) {
                 $_POST['DB_SERVER'] = $options['db-server'];
@@ -200,7 +272,11 @@ EOT
             $output->writeln('<error>'.$x->getMessage().'</error>');
             $rc = 1;
         }
+<<<<<<< HEAD
 
         return $rc;
+=======
+        $output->writeln('Installation Complete!');
+>>>>>>> origin/master
     }
 }

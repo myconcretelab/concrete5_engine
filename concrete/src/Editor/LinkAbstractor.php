@@ -131,7 +131,11 @@ class LinkAbstractor extends Object
 						$picture->style = preg_replace($heightPattern, '', $picture->style);
 						$picture->height = $matches[1];
 					}
+<<<<<<< HEAD
 					$picture->style = trim($picture->style);
+=======
+					$picture->style = preg_replace('/\s+/', '', $picture->style);
+>>>>>>> origin/master
 					$image = new \Concrete\Core\Html\Image($fo);
 					$tag = $image->getTag();
 

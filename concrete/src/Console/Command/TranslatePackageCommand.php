@@ -36,10 +36,13 @@ Examples:
     concrete5 c5:package-translate path/to/a/package/directory -l-
 
 Please remark that this command can also parse legacy (pre-5.7) packages.
+<<<<<<< HEAD
 
 Returns codes:
   0 operation completed successfully
   1 errors occurred
+=======
+>>>>>>> origin/master
 EOT
             )
         ;
@@ -47,7 +50,10 @@ EOT
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+<<<<<<< HEAD
         $rc = 0;
+=======
+>>>>>>> origin/master
         try {
             $vsh = Core::make('helper/validation/strings');
             /* @var \Concrete\Core\Utility\Service\Validation\Strings $vsh */
@@ -138,7 +144,11 @@ EOT
             } elseif (empty($localeOption)) {
                 // List the currently package locales
                 foreach ($fh->getDirectoryContents($packageLanguagesDirectory) as $item) {
+<<<<<<< HEAD
                     if (is_file("$packageLanguagesDirectory/$item/LC_MESSAGES/messages.mo") || is_file("$packageLanguagesDirectory/$item/LC_MESSAGES/messages.po")) {
+=======
+                    if (is_file("$packageLanguagesDirectory/$item/LC_MESSAGES/messages.mo") || is_file("$baseDir/$item/LC_MESSAGES/messages.po")) {
+>>>>>>> origin/master
                         $locales[] = $item;
                     }
                 }
@@ -185,7 +195,11 @@ EOT
                         false,
                         $input->getOption('exclude-3rdparty')
                     );
+<<<<<<< HEAD
                     $output->writeln('<info>done.</info>');
+=======
+                    $output->writeln('done.');
+>>>>>>> origin/master
                 }
             }
 
@@ -201,7 +215,11 @@ EOT
             if ($pot->toPoFile($potFilename) === false) {
                 throw new Exception("Unable to save the .pot file to $potFilename");
             }
+<<<<<<< HEAD
             $output->writeln('<info>done.</info>');
+=======
+            $output->writeln('done.');
+>>>>>>> origin/master
 
             // Creating/updating the locale files
             foreach ($locales as $locale) {
@@ -214,18 +232,30 @@ EOT
                 if (is_file($poFile)) {
                     $output->write("- reading current .po file... ");
                     $oldPo = Translations::fromPoFile($poFile);
+<<<<<<< HEAD
                     $output->writeln('<info>done.</info>');
                 } elseif (is_file($moFile)) {
                     $output->write("- decompiling current .mo file... ");
                     $oldPo = Translations::fromMoFile($poFile);
                     $output->writeln('<info>done.</info>');
+=======
+                    $output->writeln('done.');
+                } elseif (is_file($moFile)) {
+                    $output->write("- decompiling current .mo file... ");
+                    $oldPo = Translations::fromMoFile($poFile);
+                    $output->writeln('done.');
+>>>>>>> origin/master
                 } else {
                     $oldPo = null;
                 }
                 if ($oldPo !== null) {
                     $output->write("- merging translations... ");
                     $po->mergeWith($oldPo, 0);
+<<<<<<< HEAD
                     $output->writeln('<info>done.</info>');
+=======
+                    $output->writeln('done.');
+>>>>>>> origin/master
                 }
                 $output->write("- saving .po file... ");
                 if (!is_dir($poDirectory)) {
@@ -235,6 +265,7 @@ EOT
                     }
                 }
                 $po->toPoFile($poFile);
+<<<<<<< HEAD
                 $output->writeln('<info>done.</info>');
                 $output->write("- saving .mo file... ");
                 $po->toMoFile($moFile);
@@ -246,5 +277,17 @@ EOT
         }
 
         return $rc;
+=======
+                $output->writeln('done.');
+                $output->write("- saving .mo file... ");
+                $po->toMoFile($moFile);
+                $output->writeln('done.');
+            }
+        } catch (Exception $x) {
+            $output->writeln($x->getMessage());
+
+            return 1;
+        }
+>>>>>>> origin/master
     }
 }

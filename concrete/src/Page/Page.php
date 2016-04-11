@@ -285,8 +285,13 @@ class Page extends Collection implements \Concrete\Core\Permission\ObjectInterfa
     {
         // This function forces checkin to take place
         $db = Database::connection();
+<<<<<<< HEAD
         $q = 'update Pages set cIsCheckedOut = 0, cCheckedOutUID = null, cCheckedOutDatetime = null, cCheckedOutDatetimeLastEdit = null where cID = ?';
         $db->executeQuery($q, array($this->cID));
+=======
+        $q = "update Pages set cIsCheckedOut = 0, cCheckedOutUID = null, cCheckedOutDatetime = null, cCheckedOutDatetimeLastEdit = null where cID = '{$this->cID}'";
+        $db->query($q);
+>>>>>>> origin/master
     }
 
     /**
@@ -655,7 +660,11 @@ class Page extends Collection implements \Concrete\Core\Permission\ObjectInterfa
             $q .=  ' and ppIsCanonical = ?';
             $v[] = 1;
         }
+<<<<<<< HEAD
         $cPath = $db->fetchColumn($q, $v);
+=======
+        $cPath = $db->fetchColumn($q);
+>>>>>>> origin/master
 
         $data = array(
             'handle' => $this->getCollectionHandle(),
@@ -1461,7 +1470,11 @@ class Page extends Collection implements \Concrete\Core\Permission\ObjectInterfa
     {
         $cIDs = array($this->cParentID);
         $db = Database::connection();
+<<<<<<< HEAD
         $aliasedParents = $db->fetchAll('SELECT cParentID FROM Pages WHERE cPointerID = ?', array($this->cID));
+=======
+        $aliasedParents = $db->fetchAll('SELECT cParentID FROM Pages WHERE cPointerID='.intval($this->cID).' ');
+>>>>>>> origin/master
         foreach ($aliasedParents as $aliasedParent) {
             $cIDs[] = $aliasedParent['cParentID'];
         }
@@ -1973,7 +1986,11 @@ class Page extends Collection implements \Concrete\Core\Permission\ObjectInterfa
     public function clearPagePermissions()
     {
         $db = Database::connection();
+<<<<<<< HEAD
         $db->executeQuery('delete from PagePermissionAssignments where cID = ?', array($this->cID));
+=======
+        $db->executeQuery("delete from PagePermissionAssignments where cID = '{$this->cID}'");
+>>>>>>> origin/master
         $this->permissionAssignments = array();
     }
 

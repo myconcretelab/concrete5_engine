@@ -435,7 +435,11 @@ class Install extends Controller
     }
 
     /**
+<<<<<<< HEAD
      * @return bool
+=======
+     * @return boolean
+>>>>>>> origin/master
      */
     public function isAutoAttachEnabled()
     {
@@ -443,10 +447,19 @@ class Install extends Controller
     }
 
     /**
+<<<<<<< HEAD
      * @param bool $auto_attach
+=======
+     * @param boolean $auto_attach
+>>>>>>> origin/master
      */
     public function setAutoAttach($auto_attach)
     {
         $this->auto_attach = $auto_attach;
     }
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> origin/master
 }

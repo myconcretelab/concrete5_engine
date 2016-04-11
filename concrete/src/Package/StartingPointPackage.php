@@ -105,8 +105,12 @@ class StartingPointPackage extends BasePackage
 
     /**
      * @param string $pkgHandle
+<<<<<<< HEAD
      *
      * @return static|null
+=======
+     * @return static
+>>>>>>> origin/master
      */
     public static function getClass($pkgHandle)
     {

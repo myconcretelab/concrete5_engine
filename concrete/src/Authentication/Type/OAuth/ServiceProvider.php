@@ -21,6 +21,7 @@ class ServiceProvider extends Provider
             return new ExtractorFactory();
         });
 
+<<<<<<< HEAD
         $this->app->bind('oauth_extractor', function ($app, $params = array()) {
             if (!is_array($params)) {
                 $params = array($params);
@@ -34,6 +35,18 @@ class ServiceProvider extends Provider
 
             return $extractor_factory->get($service);
         });
+=======
+        $this->app->bind(
+            'oauth_extractor',
+            function ($app, $service=null) {
+                if (!$service) {
+                    return null;
+                }
+
+                $extractor_factory = $app->make('oauth/factory/extractor');
+                return $extractor_factory->get($service);
+            });
+>>>>>>> origin/master
 
         \Route::register(
             '/ccm/system/authentication/oauth2/{type}/{action}',

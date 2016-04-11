@@ -19,18 +19,24 @@ class InstallPackageCommand extends Command
             ->setDescription('Install a concrete5 package')
             ->addArgument('package', InputArgument::REQUIRED, 'The handle of the package to be installed')
             ->addArgument('package-options', InputArgument::IS_ARRAY, 'List of key-value pairs to pass to the package install routine (example: foo=bar baz=foo)')
+<<<<<<< HEAD
             ->setHelp(<<<EOT
 Returns codes:
   0 operation completed successfully
   1 errors occurred
 EOT
             )
+=======
+>>>>>>> origin/master
         ;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+<<<<<<< HEAD
         $rc = 0;
+=======
+>>>>>>> origin/master
         try {
             $pkgHandle = $input->getArgument('package');
             $packageOptions = array();
@@ -72,22 +78,35 @@ EOT
             if ($pkg === null) {
                 throw new Exception(sprintf("No package with handle '%s' was found", $pkgHandle));
             }
+<<<<<<< HEAD
             $output->writeln(sprintf('<info>found (%s).</info>', $pkg->getPackageName()));
+=======
+            $output->writeln(sprintf('found (%s).', $pkg->getPackageName()));
+>>>>>>> origin/master
 
             $output->write('Checking preconditions... ');
             $test = Package::testForInstall($pkgHandle);
             if ($test !== true) {
                 throw new Exception(implode("\n", Package::mapError($r)));
             }
+<<<<<<< HEAD
             $output->writeln('<info>good.</info>');
 
             $output->write('Installing package... ');
             $pkgInstalled = $pkg->install($packageOptions);
             $output->writeln('<info>done.</info>');
+=======
+            $output->writeln('good.');
+
+            $output->write('Installing package... ');
+            $pkgInstalled = $pkg->install($packageOptions);
+            $output->writeln('done.');
+>>>>>>> origin/master
 
             if ($pkg->allowsFullContentSwap() && $input->getOption('full-content-swap')) {
                 $output->write('Performing full content swap... ');
                 $pkg->swapContent(array());
+<<<<<<< HEAD
                 $output->writeln('<info>done.</info>');
             }
         } catch (Exception $x) {
@@ -96,5 +115,14 @@ EOT
         }
 
         return $rc;
+=======
+                $output->writeln('done.');
+            }
+        } catch (Exception $x) {
+            $output->writeln($x->getMessage());
+
+            return 1;
+        }
+>>>>>>> origin/master
     }
 }

@@ -941,7 +941,11 @@ class Package extends Object
      */
     protected function validateClearSiteContents($options)
     {
+<<<<<<< HEAD
         if (Core::make('app')->isRunThroughCommandLineInterface()) {
+=======
+        if (Core::make('application')->isRunThroughCommandLineInterface()) {
+>>>>>>> origin/master
             $result = true;
         } else {
             $result = false;
@@ -1230,7 +1234,11 @@ class Package extends Object
     /**
      * Returns the package ID.
      *
+<<<<<<< HEAD
      * @return int|null
+=======
+     * @return int
+>>>>>>> origin/master
      */
     public function getPackageID()
     {
@@ -1238,6 +1246,7 @@ class Package extends Object
     }
 
     /**
+<<<<<<< HEAD
      * Sets the package ID.
      *
      * @param int|null $value
@@ -1248,6 +1257,8 @@ class Package extends Object
     }
 
     /**
+=======
+>>>>>>> origin/master
      * Updates a package's name, description, version and ID using the current class properties.
      */
     public function upgradeCoreData()
