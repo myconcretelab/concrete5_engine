@@ -85,43 +85,54 @@ class Controller extends BlockController
 
     public function save($post)
     {
-        $db = Database::connection();
-        $arLayoutID = $db->GetOne('select arLayoutID from btCoreAreaLayout where bID = ?', array($this->bID));
-        if (!$arLayoutID) {
-            $arLayout = $this->addFromPost($post);
+        if (isset($post['arLayoutID']) && !isset($post['arLayoutEdit'])) {
+            // terribly lame, but in import we pass arLayoutID and we also pass it in the post of editing a layout
+            // We need to somehow differentiate the two. If it's JUST arLayoutID we're using the migration tool
+            // if it includes arLayoutEdit (which is included in the form) then run the standrd block save.
+            // we are passing it in directly –likely from import
+            $values = array('arLayoutID' => $post['arLayoutID']);
+            parent::save($values);
+            return;
         } else {
-            $arLayout = AreaLayout::getByID($arLayoutID);
-            if ($arLayout instanceof PresetLayout) {
-                return;
-            }
-            // save spacing
-            if ($arLayout->isAreaLayoutUsingThemeGridFramework()) {
-                $columns = $arLayout->getAreaLayoutColumns();
-                for ($i = 0; $i < count($columns); ++$i) {
-                    $col = $columns[$i];
-                    $span = ($post['span'][$i]) ? $post['span'][$i] : 0;
-                    $offset = ($post['offset'][$i]) ? $post['offset'][$i] : 0;
-                    $col->setAreaLayoutColumnSpan($span);
-                    $col->setAreaLayoutColumnOffset($offset);
-                }
+
+            $db = Database::connection();
+            $arLayoutID = $db->GetOne('select arLayoutID from btCoreAreaLayout where bID = ?', array($this->bID));
+            if (!$arLayoutID) {
+                $arLayout = $this->addFromPost($post);
             } else {
-                $arLayout->setAreaLayoutColumnSpacing($post['spacing']);
-                if ($post['isautomated']) {
-                    $arLayout->disableAreaLayoutCustomColumnWidths();
-                } else {
-                    $arLayout->enableAreaLayoutCustomColumnWidths();
+                $arLayout = AreaLayout::getByID($arLayoutID);
+                if ($arLayout instanceof PresetLayout) {
+                    return;
+                }
+                // save spacing
+                if ($arLayout->isAreaLayoutUsingThemeGridFramework()) {
                     $columns = $arLayout->getAreaLayoutColumns();
                     for ($i = 0; $i < count($columns); ++$i) {
                         $col = $columns[$i];
-                        $width = ($post['width'][$i]) ? $post['width'][$i] : 0;
-                        $col->setAreaLayoutColumnWidth($width);
+                        $span = ($post['span'][$i]) ? $post['span'][$i] : 0;
+                        $offset = ($post['offset'][$i]) ? $post['offset'][$i] : 0;
+                        $col->setAreaLayoutColumnSpan($span);
+                        $col->setAreaLayoutColumnOffset($offset);
+                    }
+                } else {
+                    $arLayout->setAreaLayoutColumnSpacing($post['spacing']);
+                    if ($post['isautomated']) {
+                        $arLayout->disableAreaLayoutCustomColumnWidths();
+                    } else {
+                        $arLayout->enableAreaLayoutCustomColumnWidths();
+                        $columns = $arLayout->getAreaLayoutColumns();
+                        for ($i = 0; $i < count($columns); ++$i) {
+                            $col = $columns[$i];
+                            $width = ($post['width'][$i]) ? $post['width'][$i] : 0;
+                            $col->setAreaLayoutColumnWidth($width);
+                        }
                     }
                 }
             }
-        }
 
-        $values = array('arLayoutID' => $arLayout->getAreaLayoutID());
-        parent::save($values);
+            $values = array('arLayoutID' => $arLayout->getAreaLayoutID());
+            parent::save($values);
+        }
     }
 
     public function getImportData($blockNode, $page)

@@ -198,6 +198,7 @@ var ccmi18n_filemanager = {
   duplicateFile: <?php echo json_encode(t('Copy File'))?>,
   clear: <?php echo json_encode(t('Clear'))?>,
   edit: <?php echo json_encode(t('Edit'))?>,
+  thumbnailImages: <?php echo json_encode(t('Thumbnail Images'))?>,
   replace: <?php echo json_encode(t('Replace'))?>,
   duplicate: <?php echo json_encode(t('Copy'))?>,
   chooseNew: <?php echo json_encode(t('Choose New File'))?>,
