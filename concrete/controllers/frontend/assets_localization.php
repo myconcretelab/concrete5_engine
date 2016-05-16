@@ -512,6 +512,7 @@ var ccmi18n_imageeditor = {
         ?>
 ccmTranslator.setI18NDictionart({
   AskDiscardDirtyTranslation: <?php echo json_encode(t("The current item has changed.\nIf you proceed you will lose your changes.\n\nDo you want to proceed anyway?"))?>,
+  Approved: <?php echo json_encode(tc('Translation', 'Approved')); ?>,
   Comments: <?php echo json_encode(t('Comments'))?>,
   Context: <?php echo json_encode(t('Context'))?>,
   ExamplePH: <?php echo json_encode(t('Example: %s'))?>,
@@ -535,6 +536,8 @@ ccmTranslator.setI18NDictionart({
   TAB_SHIFT: <?php echo json_encode(t('[SHIFT]+[TAB] Backward'))?>,
   Translate: <?php echo json_encode(t('Translate'))?>,
   Translation: <?php echo json_encode(t('Translation'))?>,
+  TranslationIsApproved_WillNeedApproval: <?php echo json_encode(t('This translation is approved: your changes will need approval.')); ?>,
+  TranslationIsNotApproved: <?php echo json_encode(t('This translation is not approved.')); ?>,
   PluralNames: {
     zero: <?php echo json_encode(tc('PluralCase', 'Zero'))?>,
     one: <?php echo json_encode(tc('PluralCase', 'One'))?>,

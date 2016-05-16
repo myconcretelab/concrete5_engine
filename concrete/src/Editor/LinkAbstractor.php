@@ -131,13 +131,12 @@ class LinkAbstractor extends Object
 						$picture->style = preg_replace($heightPattern, '', $picture->style);
 						$picture->height = $matches[1];
 					}
-					$picture->style = preg_replace('/\s+/', '', $picture->style);
+					$picture->style = trim($picture->style);
 					$image = new \Concrete\Core\Html\Image($fo);
 					$tag = $image->getTag();
 
 					foreach ($picture->attr as $attr => $val) {
 						if (!in_array($attr, self::$blackListImgAttributes)) {
-
 							//Apply attributes to child img, if using picture tag.
 							if ($tag instanceof \Concrete\Core\Html\Object\Picture) {
 								foreach ($tag->getChildren() as $child) {
@@ -145,8 +144,10 @@ class LinkAbstractor extends Object
 										$child->$attr($val);
 									}
 								}
-							} else {
+							} elseif (is_callable(array($tag, $attr))) {
 								$tag->$attr($val);
+							} else {
+								$tag->setAttribute($attr, $val);
 							}
 						}
 					}

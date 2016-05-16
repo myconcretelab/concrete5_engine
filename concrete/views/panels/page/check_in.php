@@ -1,6 +1,7 @@
 <?php
 defined('C5_EXECUTE') or die("Access Denied.");
 $v = $c->getVersionObject();
+$require_version_comments = (bool) Config::get('concrete.misc.require_version_comments');
 ?>
 
 <div class="ccm-panel-content-inner">
@@ -9,7 +10,7 @@ $v = $c->getVersionObject();
 
 <h5><?php echo t('Version Comments')?></h5>
 
-<div class="ccm-panel-check-in-comments"><textarea name="comments" id="ccm-check-in-comments" /></textarea></div>
+<div class="ccm-panel-check-in-comments"><textarea name="comments" id="ccm-check-in-comments"<?php echo $require_version_comments ? ' required="required"' : ''; ?>></textarea></div>
 
 <?php if ($cp->canApprovePageVersions()) {
 	if ($c->isPageDraft()) {

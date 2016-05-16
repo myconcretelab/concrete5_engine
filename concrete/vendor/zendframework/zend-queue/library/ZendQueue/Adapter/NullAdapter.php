@@ -21,7 +21,7 @@ use ZendQueue\Queue;
  * @package    Zend_Queue
  * @subpackage Adapter
  */
-class Null extends AbstractAdapter
+class NullAdapter extends AbstractAdapter
 {
     /********************************************************************
      * Queue management functions

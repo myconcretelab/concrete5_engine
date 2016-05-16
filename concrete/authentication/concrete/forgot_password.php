@@ -4,9 +4,8 @@
 	<form method="post" action="<?php echo URL::to('/login', 'callback', $authType->getAuthenticationTypeHandle(), 'forgot_password') ?>">
 		<h4><?php echo t('Forgot Your Password?') ?></h4>
 		<div class="ccm-message"><?php echo isset($intro_msg) ? $intro_msg : '' ?></div>
-			<div class='help-block'>
-				<?php echo t('Enter your email address below. We will send you instructions to reset your password.') ?>
-			</div>
+		<div class='help-block'>
+			<?php echo t('Enter your email address below. We will send you instructions to reset your password.') ?>
 		</div>
 		<div class="form-group">
 			<input name="uEmail" type="email" placeholder="<?php echo t('Email Address') ?>" class="form-control" />
