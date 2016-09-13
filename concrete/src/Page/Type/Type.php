@@ -218,14 +218,16 @@ class Type extends Object implements \Concrete\Core\Permission\ObjectInterface
         }
 
         // remove all but the most recent X drafts.
-        $vl = new VersionList($c);
-        $vl->setItemsPerPage(-1);
-        // this will ensure that we only ever keep X versions.
-        $vArray = $vl->getPage();
-        if (count($vArray) > $this->ptDraftVersionsToSave) {
-            for ($i = $this->ptDraftVersionsToSave; $i < count($vArray); $i++) {
-                $v = $vArray[$i];
-                @$v->delete();
+        if ($c->isPageDraft()) {
+            $vl = new VersionList($c);
+            $vl->setItemsPerPage(-1);
+            // this will ensure that we only ever keep X versions.
+            $vArray = $vl->getPage();
+            if (count($vArray) > $this->ptDraftVersionsToSave) {
+                for ($i = $this->ptDraftVersionsToSave; $i < count($vArray); $i++) {
+                    $v = $vArray[$i];
+                    @$v->delete();
+                }
             }
         }
 
@@ -1120,9 +1122,8 @@ class Type extends Object implements \Concrete\Core\Permission\ObjectInterface
         $db = Loader::db();
         $ptID = $this->getPageTypeID();
         $parent = Page::getByPath(Config::get('concrete.paths.drafts'));
-        $data = array('cvIsApproved' => 0);
+        $data = array('cvIsApproved' => 0, 'cIsActive' => false, 'cAcquireComposerOutputControls' => true);
         $p = $parent->add($this, $data, $pt);
-        $p->deactivate();
 
         // now we setup in the initial configurated page target
         $target = $this->getPageTypePublishTargetObject();

@@ -69,7 +69,6 @@ $dh = Core::make('helper/date'); /* @var $dh \Concrete\Core\Localization\Service
                         <div class="ccm-search-main-lookup-field">
                             <i class="fa fa-search"></i>
                             <?php echo $form->search('keywords', array('placeholder' => t('Keywords')))?>
-                            <button type="submit" class="ccm-search-field-hidden-submit" tabindex="-1"><?php echo t('Search')?></button>
                         </div>
                     </div>
                 </div>
@@ -119,6 +118,11 @@ $dh = Core::make('helper/date'); /* @var $dh \Concrete\Core\Localization\Service
                     </div>
                 </div>
             </div>
+
+            <div class="ccm-search-fields-submit">
+                <button type="submit" class="btn btn-primary pull-right"><?php echo t('Search')?></button>
+            </div>
+
 
         </form>
     </div>

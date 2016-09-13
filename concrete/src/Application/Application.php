@@ -136,6 +136,8 @@ class Application extends Container
 
         // Clear precompiled script bytecode caches
         OpCache::clear();
+
+        \Events::dispatch('on_cache_flush_end');
     }
 
     /**
@@ -423,8 +425,7 @@ class Application extends Container
 
         $path = rawurldecode($request->getPathInfo());
 
-        if (substr($path, 0, 3) == '../' || substr($path, -3) == '/..' || strpos($path, '/../') ||
-            substr($path, 0, 3) == '..\\' || substr($path, -3) == '\\..' || strpos($path, '\\..\\')) {
+        if (strpos($path, '..') !== false) {
             throw new \RuntimeException(t('Invalid path traversal. Please make this request with a valid HTTP client.'));
         }
 
